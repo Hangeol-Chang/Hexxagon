@@ -191,14 +191,14 @@ public class Gamemanager : MonoBehaviour
             
             for (int i = 0; i< 6; i++)
             {
-                if (type_sn1[i] != -1) tile[type_sn1[i]].GetComponent<tilecontroller>().type[0].SetActive(true);
+                if (type_sn1[i] != -1 && tile[type_sn1[i]].GetComponent<tilecontroller>().onplayer == false) tile[type_sn1[i]].GetComponent<tilecontroller>().type[0].SetActive(true);
             }
             for (int i = 0; i< 12; i++)
             {
-                if (type_sn2[i] != -1) tile[type_sn2[i]].GetComponent<tilecontroller>().type[1].SetActive(true);
+                if (type_sn2[i] != -1 && tile[type_sn2[i]].GetComponent<tilecontroller>().onplayer == false) tile[type_sn2[i]].GetComponent<tilecontroller>().type[1].SetActive(true);
             }
-            type1snSave = type1;
-            type2snSave = type2;
+            type1snSave = type_sn1;
+            type2snSave = type_sn2;
 
             check = true;
         }                                                   //이동 가이드 찍는 코드
@@ -224,7 +224,6 @@ public class Gamemanager : MonoBehaviour
 
         for (int i = 0; i < 6; i++)                                                                   //이동 가이드 전부 지움
         {
-            Debug.Log(type1snSave[i]);
             if (type1snSave[i] != -1) tile[type1snSave[i]].GetComponent<tilecontroller>().type[0].SetActive(false);
         }
         for (int i = 0; i < 12; i++)
@@ -301,7 +300,6 @@ public class Gamemanager : MonoBehaviour
     }
     public void Undo()
     {
-        //Debug.Log(UndoPlayer[3]);
         for (int i = 6; i <= 11; i++)
         {
             if (UndoAttack[i] != -1)
@@ -409,73 +407,29 @@ public class Gamemanager : MonoBehaviour
         {
             if (aisn[j] == -1) break;
             int sn = aisn[j];
-            
-            for(int i = 0; i < 6; i++)
-                aitn[j, i] = tile[sn].GetComponent<tilecontroller>().type1[i];
 
-            for (int i = 6; i < 18; i++)
-                aitn[j, i] = tile[sn].GetComponent<tilecontroller>().type2[i];
-
-            /*
             for (int i = 0; i < 6; i++)
             {
-                if ((sn / inoneline) % 2 == 1) tn = sn + type1[i];
-                else
-                {
-                    if (i <= 1) tn = sn + type1[i];
-                    else tn = sn + type1[i] - 1;
-                }
-
-                if (tn < 0 || tn >= Maxcount)
-                {
-                    aitn[j,i] = -1;
-                    continue;
-                }
-                else
-                {
-                    Vector2 sqrdistance = new Vector2(tile[sn].transform.position.x - tile[tn].transform.position.x, tile[sn].transform.position.y - tile[tn].transform.position.y);
-                    if (tile[tn].activeSelf == true && tile[tn].GetComponent<tilecontroller>().onplayer == false && sqrdistance.sqrMagnitude < 17000)
-                    {
-                        aitn[j, i] = tn;
-                    }
-                    else aitn[j, i] = -1;
-                }
+                aitn[j, i] = tile[sn].GetComponent<tilecontroller>().type1[i];
+                if (aitn[j, i] != -1 && (tile[aitn[j, i]].GetComponent<tilecontroller>().onplayer == true || tile[aitn[j, i]].activeSelf == false)) aitn[j, i] = -1;
             }
+
             for (int i = 0; i < 12; i++)
             {
-                if ((sn / inoneline) % 2 == 1) tn = sn + type2[i];
-                else
-                {
-                    if (i <= 7) tn = sn + type2[i];
-                    else tn = sn + type2[i] - 1;
-                }
-
-                if (tn < 0 || tn >= Maxcount)
-                {
-                    aitn[j, i+6] = -1;
-                    continue;
-                }
-                else
-                {
-                    Vector2 sqrdistance = new Vector2(tile[sn].transform.position.x - tile[tn].transform.position.x, tile[sn].transform.position.y - tile[tn].transform.position.y);
-                    if (tile[tn].activeSelf==true && tile[tn].GetComponent<tilecontroller>().onplayer == false && sqrdistance.sqrMagnitude < 67660)
-                    {
-                        aitn[j, i+6] = tn;
-                    }
-                    else aitn[j, i+6] = -1;
-                }
-            }*/
+                aitn[j, i + 6] = tile[sn].GetComponent<tilecontroller>().type2[i];
+                if (aitn[j, i + 6] != -1 && (tile[aitn[j, i + 6]].GetComponent<tilecontroller>().onplayer == true || tile[aitn[j, i+6]].activeSelf == false)) aitn[j, i+6] = -1;
+            }
         }
         //aiscore 대입하는 코드
         for (int j = 0; j < thinkcount; j++)
         {
             if (aisn[j] == -1)
             {
-                for (int i = 0; i < 18; i++) aiscore[j, i] = -1;                              //아래에 같은 코드 있음
+                for (int i = 0; i < 18; i++) aiscore[j, i] = -5;
                 break;
             }
 
-            for (int i = 0; i <= 17; i++)
+            for (int i = 0; i < 18; i++)
             {
                 if (aitn[j, i] == -1)
                 {
@@ -565,9 +519,9 @@ public class Gamemanager : MonoBehaviour
             }
         }
 
-        Debug.Log(maxaiscore);
-        Debug.Log(aisn[finalmove[0]]);
-        Debug.Log(aitn[finalmove[0], finalmove[1]]);
+        //Debug.Log(maxaiscore);
+        //Debug.Log(aisn[finalmove[0]]);                                                      //출발위치
+        //Debug.Log(aitn[finalmove[0], finalmove[1]]);                                        //도착위치
 
         if (finalmove[1] >= 6)
         {
