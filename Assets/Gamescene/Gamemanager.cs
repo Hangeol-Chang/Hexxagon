@@ -12,7 +12,7 @@ public class Gamemanager : MonoBehaviour
     public Text countdown;
     public int PostBox;
     private int totalplayer;
-    private int aidif = 4;
+    private int aidif = 2;
     private int aaa;
 
     public mapIndex mapIndex;

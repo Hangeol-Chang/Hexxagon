@@ -15,13 +15,13 @@ public class AiSet : MonoBehaviour
                 aindex = new int[] { -2, 1, 1, -3, 2 };
                 break;
             case 2:
-                aindex = new int[] { -4, 1, 1, -3, 2 };
+                aindex = new int[] { -4, 1, 1, -3, 2 };                                 //노말
                 break;
             case 3:
                 aindex = new int[] { -5, 5, 2, -2, 4 };
                 break;
             case 4:
-                aindex = new int[] { -10, 5, 2, 0, 5 };
+                aindex = new int[] { -6, 3, 2, 0, 5 };
                 break;
         }
 
