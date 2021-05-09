@@ -71,7 +71,7 @@ public class Gamemanager : MonoBehaviour
         {
             pos1 = tile[i].transform.position;
 
-            for (int j = 0; j < 6; j++) //type1 움직일 범위
+            for (int j = 0; j < 6; j++)                                                   //type1 움직일 범위
             {
                 if ((i / inoneline) % 2 == 1) tn = i + type1[j];
                 else
@@ -92,7 +92,7 @@ public class Gamemanager : MonoBehaviour
                 }
                 tile[i].GetComponent<tilecontroller>().type1[j] = type1snSave[j];
             }
-            //type2 움직일 범위
+                                                                                         //type2 움직일 범위
             for (int j = 0; j < 12; j++)
             {
                 if ((i / inoneline) % 2 == 1) tn = i + type2[j];
