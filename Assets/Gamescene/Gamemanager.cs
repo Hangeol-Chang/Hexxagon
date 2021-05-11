@@ -5,14 +5,22 @@ using UnityEngine.UI;
 
 public class Gamemanager : MonoBehaviour
 {
+    public Notification noti;
+
     public Text Turn;
     public Text[] count = new Text[3];
-    public GameObject P3icon;
     public int[] countint = { 1, 1, 1 };
+    public GameObject P3icon;
+
+    public Text undotext;
+    private int undocount = 3;
+    private int undoturn = 0;
+
+    public Text Mapname;
     public Text countdown;
     public int PostBox;
     private int totalplayer;
-    private int aidif = 2;
+    private int aidif = 6;
     private int aaa;
 
     public mapIndex mapIndex;
@@ -120,21 +128,21 @@ public class Gamemanager : MonoBehaviour
 
         if (PostBox == 3 || PostBox == 5)
         {
-            aaa = Random.Range(40, 41);
+            aaa = Random.Range(40, 44);
             totalplayer = 3;
         }
         else if (PostBox ==1)
         {
             this.gameObject.GetComponent<AiSet>().aiset(aidif);
 
-            aaa = Random.Range(0, 5);
+            aaa = Random.Range(0, 11);
             P3icon.SetActive(false);                                                       //3p에 관한거 지우기
             count[2].gameObject.SetActive(false);
             totalplayer = 2;
         }
         else
         {
-            aaa = Random.Range(0, 5);
+            aaa = Random.Range(0, 11);
             P3icon.SetActive(false);                                                       //3p에 관한거 지우기
             count[2].gameObject.SetActive(false);
             totalplayer = 2;
@@ -151,7 +159,7 @@ public class Gamemanager : MonoBehaviour
 
         cantouch = true;
     }
-    public void mapsetting2(int[] deltile, int[] P1, int[] P2)
+    public void mapsetting2(int[] deltile, int[] P1, int[] P2, string mapn)
     {
         for (int i = 0; i < deltile.Length; i++) tile[deltile[i]].SetActive(false);
         for (int i = 0; i < P1.Length; i++) tile[P1[i]].GetComponent<tilecontroller>().playerSetActive(0);
@@ -160,13 +168,14 @@ public class Gamemanager : MonoBehaviour
         count[1].text = P2.Length.ToString();
         countint[0] = P1.Length;
         countint[1] = P2.Length;
+        Mapname.text = mapn;
 
         currenttilefill = P1.Length + P2.Length;
         maxtile = 81 - deltile.Length ;
         Debug.Log(maxtile);
     }
 
-    public void mapsetting3(int[] deltile, int[] P1, int[] P2, int[] P3)
+    public void mapsetting3(int[] deltile, int[] P1, int[] P2, int[] P3, string mapn)
     {
         for (int i = 0; i < deltile.Length; i++) tile[deltile[i]].SetActive(false);
         for (int i = 0; i < P1.Length; i++) tile[P1[i]].GetComponent<tilecontroller>().playerSetActive(0);
@@ -178,6 +187,7 @@ public class Gamemanager : MonoBehaviour
         countint[0] = P1.Length;
         countint[1] = P2.Length;
         countint[2] = P3.Length;
+        Mapname.text = mapn;
 
         currenttilefill = P1.Length + P2.Length + P3.Length;
         maxtile = 81 - (deltile.Length + currenttilefill);
@@ -299,8 +309,8 @@ public class Gamemanager : MonoBehaviour
         {
             currenttilefill++;
             UndoPlayer[2] = -1;
-            Debug.Log(currenttilefill);
-            if (currenttilefill == maxtile) Gameend();
+            Debug.Log(currenttilefill == maxtile);
+            if (currenttilefill == maxtile) StartCoroutine(Gameend());
         }
 
         check = false;
@@ -321,59 +331,94 @@ public class Gamemanager : MonoBehaviour
     
     private IEnumerator Gameend()
     {
+        Debug.Log("게임 끝");
+        StartCoroutine(noti.Notiup(5, "게임 종료"));
+
         yield return new WaitForSeconds(0.4f);
         cantouch = false;
-        Debug.Log("게임 끝");
     }
+
+    private IEnumerator Gameend2()
+    {
+        Debug.Log("게임 끝");
+
+        switch (PostBox)
+        {
+            case 1:
+                break;
+            case 2:
+                break;
+        }
+        
+        StartCoroutine(noti.Notiup(5, "게임 종료"));
+
+        
+        yield return new WaitForSeconds(0.4f);
+        cantouch = false;
+    }
+
     public void Undo()
     {
-        for (int i = 6; i <= 11; i++)
+        if (undocount == 0)
         {
-            if (UndoAttack[i] != -1)
-            {
-                tile[UndoAttack[i]].GetComponent<tilecontroller>().player[changewho].SetActive(true);
-                countint[changewho]++;
-                tile[UndoAttack[i]].GetComponent<tilecontroller>().player[who].SetActive(false);
-                countint[who]--;
-            }
-        }
-        if (UndoPlayer[2] != -1)
-        {
-            tile[UndoPlayer[2]].GetComponent<tilecontroller>().playerSetActive(who);
-            countint[who]++;
-        }
-        if (UndoPlayer[3] != -1)
-        {
-            StartCoroutine(tile[UndoPlayer[3]].GetComponent<tilecontroller>().playerSetDeActive(who));
-            countint[who]--;
-        }
 
-        for (int i = 0; i <= 5; i++)
+        }
+        else if (turn - undoturn >= 2)
         {
-            if (UndoAttack[i] != -1)
+            undocount -= 1;
+            
+            undotext.text = undocount.ToString();
+            undoturn = turn;
+
+            for (int i = 6; i <= 11; i++)
             {
-                tile[UndoAttack[i]].GetComponent<tilecontroller>().player[changewho].SetActive(false);
-                countint[changewho]--;
-                tile[UndoAttack[i]].GetComponent<tilecontroller>().player[who].SetActive(true);
+                if (UndoAttack[i] != -1)
+                {
+                    tile[UndoAttack[i]].GetComponent<tilecontroller>().player[changewho].SetActive(true);
+                    countint[changewho]++;
+                    tile[UndoAttack[i]].GetComponent<tilecontroller>().player[who].SetActive(false);
+                    countint[who]--;
+                }
+            }
+            if (UndoPlayer[2] != -1)
+            {
+                tile[UndoPlayer[2]].GetComponent<tilecontroller>().playerSetActive(who);
                 countint[who]++;
             }
-        }
-        if (UndoPlayer[0] != -1)
-        {
-            tile[UndoPlayer[0]].GetComponent<tilecontroller>().playerSetActive(changewho);
-            countint[changewho]++;
-        }
-        if (UndoPlayer[1] != -1)
-        {
-            StartCoroutine(tile[UndoPlayer[1]].GetComponent<tilecontroller>().playerSetDeActive(changewho));
-            countint[changewho]--;
-        }
+            if (UndoPlayer[3] != -1)
+            {
+                StartCoroutine(tile[UndoPlayer[3]].GetComponent<tilecontroller>().playerSetDeActive(who));
+                countint[who]--;
+            }
 
-        turn = turn - 2;
-        Turn.text = turn.ToString();
-        count[0].text = countint[0].ToString();
-        count[1].text = countint[1].ToString();
-        check = false;
+            for (int i = 0; i <= 5; i++)
+            {
+                if (UndoAttack[i] != -1)
+                {
+                    tile[UndoAttack[i]].GetComponent<tilecontroller>().player[changewho].SetActive(false);
+                    countint[changewho]--;
+                    tile[UndoAttack[i]].GetComponent<tilecontroller>().player[who].SetActive(true);
+                    countint[who]++;
+                }
+            }
+            if (UndoPlayer[0] != -1)
+            {
+                tile[UndoPlayer[0]].GetComponent<tilecontroller>().playerSetActive(changewho);
+                countint[changewho]++;
+            }
+            if (UndoPlayer[1] != -1)
+            {
+                StartCoroutine(tile[UndoPlayer[1]].GetComponent<tilecontroller>().playerSetDeActive(changewho));
+                countint[changewho]--;
+            }
+
+            turn = turn - 2;
+            Turn.text = turn.ToString();
+            count[0].text = countint[0].ToString();
+            count[1].text = countint[1].ToString();
+            check = false;
+        }
+        else StartCoroutine(noti.Notiup(1, "무르기를 할 수 없습니다."));
     }
 
     //ai
@@ -387,6 +432,8 @@ public class Gamemanager : MonoBehaviour
     private int maxaiscore;
     private int[] finalmove = new int[2];
     private int thinkcount = 20;
+
+    private int countmp;
     IEnumerator aibehaviour1()
     {
         yield return new WaitForSeconds(0.6f);
@@ -431,6 +478,19 @@ public class Gamemanager : MonoBehaviour
                     }
                 }
             }
+
+            countmp = 0;                                //움질일 데 없으면 게임 끝냄
+            foreach(int alpha in aisn)
+            {
+                if (alpha != -1) break;
+                else countmp += 1;
+            }
+            if (countmp == aisn.Length)
+            {
+                StopCoroutine(aibehaviour1());
+                StartCoroutine(Gameend());
+            }
+
             //aitn에 계산할 위치들 대입
             for (int j = 0; j < thinkcount; j++)
             {
