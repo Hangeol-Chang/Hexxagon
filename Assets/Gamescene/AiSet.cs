@@ -30,7 +30,10 @@ public class AiSet : MonoBehaviour
                 aindex = new int[] { -1, 1, 2, 0, 3 };              //괜찮음
                 break;
             case 7:
-                aindex = new int[] { 1, 3, 2, 0, 1 };               //소극적
+                aindex = new int[] { 1, 3, 2, 0, 1 };               //소극적--괜찮긴 함
+                break;
+            case 8:
+                aindex = new int[] { -1, 3, 2, 0, 1 };               //소극적
                 break;
         }
 

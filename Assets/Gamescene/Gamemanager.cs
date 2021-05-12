@@ -128,21 +128,21 @@ public class Gamemanager : MonoBehaviour
 
         if (PostBox == 3 || PostBox == 5)
         {
-            aaa = Random.Range(40, 44);
+            aaa = Random.Range(40, 46);
             totalplayer = 3;
         }
         else if (PostBox ==1)
         {
             this.gameObject.GetComponent<AiSet>().aiset(aidif);
 
-            aaa = Random.Range(0, 11);
+            aaa = Random.Range(0, 13);
             P3icon.SetActive(false);                                                       //3p에 관한거 지우기
             count[2].gameObject.SetActive(false);
             totalplayer = 2;
         }
         else
         {
-            aaa = Random.Range(0, 11);
+            aaa = Random.Range(0, 13);
             P3icon.SetActive(false);                                                       //3p에 관한거 지우기
             count[2].gameObject.SetActive(false);
             totalplayer = 2;
@@ -479,18 +479,6 @@ public class Gamemanager : MonoBehaviour
                 }
             }
 
-            countmp = 0;                                //움질일 데 없으면 게임 끝냄
-            foreach(int alpha in aisn)
-            {
-                if (alpha != -1) break;
-                else countmp += 1;
-            }
-            if (countmp == aisn.Length)
-            {
-                StopCoroutine(aibehaviour1());
-                StartCoroutine(Gameend());
-            }
-
             //aitn에 계산할 위치들 대입
             for (int j = 0; j < thinkcount; j++)
             {
@@ -509,6 +497,19 @@ public class Gamemanager : MonoBehaviour
                     if (aitn[j, i + 6] != -1 && (tile[aitn[j, i + 6]].GetComponent<tilecontroller>().onplayer == true || tile[aitn[j, i + 6]].activeSelf == false)) aitn[j, i + 6] = -1;
                 }
             }
+
+            countmp = 0;                                //움질일 데 없으면 게임 끝냄
+            foreach (int alpha in aitn)
+            {
+                if (alpha != -1) break;
+                else countmp += 1;
+            }
+            if (countmp == aitn.Length)
+            {
+                StopCoroutine(aibehaviour1());
+                StartCoroutine(Gameend());
+            }
+
             //aiscore 대입하는 코드
             for (int j = 0; j < thinkcount; j++)
             {

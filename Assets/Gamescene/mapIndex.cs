@@ -92,6 +92,22 @@ public class mapIndex : MonoBehaviour
                 mapname = "Two Bridge";
                 gamemanager.mapsetting2(index, P1, P2, mapname);
                 break;
+            case 11:
+                index = new int[] { 0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 25, 27, 34, 35, 36, 37, 43, 44, 45, 52, 53, 54, 62, 63, 64, 65, 68, 69, 70, 71, 72, 73, 74, 75, 77, 78, 79, 80 };
+                P1 = new int[] { 19, 20, 24, 25, 28, 33, 66, 67, 76 };
+                P2 = new int[] { 4, 12, 13, 46, 51, 55, 56, 60, 61 };
+                mapname = "diamond";
+                gamemanager.mapsetting2(index, P1, P2, mapname);
+                break;
+            case 12:
+                index = new int[] { 0, 1, 7, 8, 9, 16, 17, 18, 21, 22, 23, 26, 29, 32, 35, 38, 40, 42, 47, 50, 53, 54, 57, 58, 59, 62, 63, 70, 71, 72, 73, 79, 80 };
+                P1 = new int[] { 31, 39, 49 };
+                P2 = new int[] { 30, 41, 48 };
+                mapname = "surround";
+                gamemanager.mapsetting2(index, P1, P2, mapname);
+                break;
+
+                ////////////////////////////////////////////////////////////////////////////////////////////////////여기부터 3인맵//////////////////////////////////////
             case 40:
                 index = new int[] { 0, 1, 7, 8, 9, 16, 17, 18, 26, 35, 53, 54, 62, 63, 70, 71, 72, 73, 79, 80 };
                 P1 = new int[] { 2, 78 };
@@ -116,6 +132,32 @@ public class mapIndex : MonoBehaviour
                 mapname = "투기장";
                 gamemanager.mapsetting3(index, P1, P2, P3, mapname);
                 break;
+            case 43:
+                index = new int[] { 0, 1, 7, 8, 9, 16, 17, 18, 22, 26, 29, 30, 32, 35, 41, 47, 48, 50, 53, 54, 62, 63, 70, 71, 72, 73, 79, 80 };
+                P1 = new int[] { 21 };
+                P2 = new int[] { 42 };
+                P3 = new int[] { 57 };
+                mapname = "three way";
+                gamemanager.mapsetting3(index, P1, P2, P3, mapname);
+                break;
+            case 44:
+                index = new int[] { 0, 1, 7, 8, 9, 16, 17, 18, 21, 22, 23, 26, 29, 32, 35, 38, 40, 42, 47, 50, 53, 54, 57, 58, 59, 62, 63, 70, 71, 72, 73, 79, 80 };
+                P1 = new int[] { 31, 48 };
+                P2 = new int[] { 30, 49 };
+                P3 = new int[] { 39, 41 };
+                mapname = "surround";
+                gamemanager.mapsetting3(index, P1, P2, P3, mapname);
+                break;
+            case 45:
+                index = new int[] { 0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 25, 27, 34, 35, 36, 37, 43, 44, 45, 52, 53, 54, 62, 63, 64, 65, 68, 69, 70, 71, 72, 73, 74, 75, 77, 78, 79, 80 };
+                P1 = new int[] { 19, 20, 28, 51, 60, 61 };
+                P2 = new int[] { 4, 12, 13, 66, 67, 76 };
+                P3 = new int[] { 24, 25, 33, 46, 55, 56 };
+                mapname = "diamond";
+                gamemanager.mapsetting3(index, P1, P2, P3, mapname);
+                break;
+
+
             case 999:
                 index = null;
                 P1 = new int[] { 36 };
