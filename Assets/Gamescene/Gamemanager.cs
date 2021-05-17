@@ -309,7 +309,7 @@ public class Gamemanager : MonoBehaviour
         {
             currenttilefill++;
             UndoPlayer[2] = -1;
-            Debug.Log(currenttilefill == maxtile);
+            Debug.Log(currenttilefill);
             if (currenttilefill == maxtile) StartCoroutine(Gameend());
         }
 
@@ -337,7 +337,6 @@ public class Gamemanager : MonoBehaviour
         Debug.Log("게임 끝");
         int winner = 0;
 
-
         if (totalplayer == 3)
         {
             if (countint[0] > countint[1])
@@ -358,26 +357,39 @@ public class Gamemanager : MonoBehaviour
                 else winner = 4;
             }
         }
+        else
+        {
+            if (countint[0] > countint[1]) winner = 1;
+            else if (countint[0] < countint[1]) winner = 2;
+            else winner = 0;
+        }
+
         switch (winner)
         {
             case 0:
-
+                StartCoroutine(noti.Notiup(10, "비겼습니다!!"));
                 break;
 
             case 1:
-
+                StartCoroutine(noti.Notiup(10, "플레이어 1이 이겼습니다."));
                 break;
-
             case 2:
-
+                StartCoroutine(noti.Notiup(10, "플레이어 2가 이겼습니다."));
+                break;
+            case 3:
+                StartCoroutine(noti.Notiup(10, "플레이어 3이 이겼습니다."));
                 break;
 
-            case 3:
+            case 4:
+                StartCoroutine(noti.Notiup(10, "플레이어 1과 2가 비겼습니다."));
+                break;
+            case 5:
+                StartCoroutine(noti.Notiup(10, "플레이어 1과 3이 비겼습니다."));
+                break;
+            case 6:
+                StartCoroutine(noti.Notiup(10, "플레이어 2와 3이 비겼습니다."));
                 break;
         }
-
-
-
 
         yield return new WaitForSeconds(0.4f);
         cantouch = false;
@@ -430,6 +442,8 @@ public class Gamemanager : MonoBehaviour
                 tile[UndoPlayer[2]].GetComponent<tilecontroller>().playerSetActive(who);
                 countint[who]++;
             }
+            else currenttilefill--;
+
             if (UndoPlayer[3] != -1)
             {
                 StartCoroutine(tile[UndoPlayer[3]].GetComponent<tilecontroller>().playerSetDeActive(who));
@@ -451,6 +465,8 @@ public class Gamemanager : MonoBehaviour
                 tile[UndoPlayer[0]].GetComponent<tilecontroller>().playerSetActive(changewho);
                 countint[changewho]++;
             }
+            else currenttilefill--;
+
             if (UndoPlayer[1] != -1)
             {
                 StartCoroutine(tile[UndoPlayer[1]].GetComponent<tilecontroller>().playerSetDeActive(changewho));
