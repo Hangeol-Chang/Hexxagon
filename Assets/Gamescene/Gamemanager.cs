@@ -313,6 +313,9 @@ public class Gamemanager : MonoBehaviour
             if (currenttilefill == maxtile) StartCoroutine(Gameend());
         }
 
+        if(totalplayer == 3) if (countint[0] == 0 || countint[1] == 0 || countint[2] == 0) Gameend();
+        else if (countint[0] == 0 || countint[1] == 0) Gameend();
+
         check = false;
         turn++;
         Turn.text = turn.ToString();
@@ -332,7 +335,49 @@ public class Gamemanager : MonoBehaviour
     private IEnumerator Gameend()
     {
         Debug.Log("게임 끝");
-        StartCoroutine(noti.Notiup(5, "게임 종료"));
+        int winner = 0;
+
+
+        if (totalplayer == 3)
+        {
+            if (countint[0] > countint[1])
+            {
+                if (countint[0] > countint[2]) winner = 1;
+                else if (countint[0] < countint[2]) winner = 3;
+                else winner = 5;
+            }
+            else if (countint[0] < countint[1])
+            {
+                if (countint[1] < countint[2]) winner = 3;
+                else if (countint[1] > countint[2]) winner = 2;
+                else winner = 6;
+            }
+            else
+            {
+                if (countint[1] == countint[2]) winner = 0;
+                else winner = 4;
+            }
+        }
+        switch (winner)
+        {
+            case 0:
+
+                break;
+
+            case 1:
+
+                break;
+
+            case 2:
+
+                break;
+
+            case 3:
+                break;
+        }
+
+
+
 
         yield return new WaitForSeconds(0.4f);
         cantouch = false;
