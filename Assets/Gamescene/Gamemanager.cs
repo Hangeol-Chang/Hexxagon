@@ -45,6 +45,7 @@ public class Gamemanager : MonoBehaviour
 
     private int maxtile;
     private int currenttilefill;
+    private bool GG = false;
 
     private int[] UndoPlayer = { -1, -1, -1, -1 };                              //무르기용, 0,2가 공격할 때 없어진 타일, 1,3이 공격한 타일
     private int[] UndoAttack = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
@@ -172,7 +173,6 @@ public class Gamemanager : MonoBehaviour
 
         currenttilefill = P1.Length + P2.Length;
         maxtile = 81 - deltile.Length ;
-        Debug.Log(maxtile);
     }
 
     public void mapsetting3(int[] deltile, int[] P1, int[] P2, int[] P3, string mapn)
@@ -309,12 +309,10 @@ public class Gamemanager : MonoBehaviour
         {
             currenttilefill++;
             UndoPlayer[2] = -1;
-            Debug.Log(currenttilefill);
             if (currenttilefill == maxtile) StartCoroutine(Gameend());
         }
 
-        if(totalplayer == 3) if (countint[0] == 0 || countint[1] == 0 || countint[2] == 0) Gameend();
-        else if (countint[0] == 0 || countint[1] == 0) Gameend();
+        if(GG == false) endjudge();
 
         check = false;
         turn++;
@@ -331,10 +329,56 @@ public class Gamemanager : MonoBehaviour
         }
 
     }
+
+    private int nextwho;
+    private int[] endjudget = new int[18];
+    private void endjudge()     //aiBehaviour에 딜레이가 있어서 얘가 먼저 계산되고 ai가 일하면 계산이 이상해지는 현상이 발생. 여기 딜레이 줘야 될듯
+    {
+        if (totalplayer == 3) if (countint[0] == 0 || countint[1] == 0 || countint[2] == 0) Gameend();
+        else if (countint[0] == 0 || countint[1] == 0) Gameend();
+
+        if (totalplayer == 2) nextwho = (who + 1) % 2;
+        if (totalplayer == 3) nextwho = (who + 1) % 3;
+
+        bool cancontinue = false;
+
+        for (int i = 0; i < 81; i++)
+        {
+            if(tile[i].activeSelf == true && tile[i].GetComponent<tilecontroller>().onplayer == false)
+            {
+                var list = new List<int>();
+                list.AddRange(tile[i].GetComponent<tilecontroller>().type1);
+                list.AddRange(tile[i].GetComponent<tilecontroller>().type2);
+
+                endjudget = list.ToArray();
+
+                for (int j = 0; j <18; j++)
+                {
+
+                    if (endjudget[j] != -1 && tile[endjudget[j]].activeSelf && tile[endjudget[j]].GetComponent<tilecontroller>().player[nextwho].activeSelf)
+                        cancontinue = true;
+                        Debug.Log(endjudget[j]);
+                }
+                Debug.Log(cancontinue);
+            }
+
+            if (cancontinue) {
+                Debug.Log(i);
+                break;
+                    }
+        }
+        if (cancontinue == false)
+        {
+            Debug.Log("이게끝나네");
+            StartCoroutine(Gameend());
+        }
+    }
     
     private IEnumerator Gameend()
     {
+        GG = true;
         Debug.Log("게임 끝");
+        
         int winner = 0;
 
         if (totalplayer == 3)
