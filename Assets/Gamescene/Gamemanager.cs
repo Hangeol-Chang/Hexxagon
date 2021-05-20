@@ -312,7 +312,7 @@ public class Gamemanager : MonoBehaviour
             if (currenttilefill == maxtile) StartCoroutine(Gameend());
         }
 
-        if(GG == false) endjudge();
+        if(GG == false) StartCoroutine(endjudge());
 
         check = false;
         turn++;
@@ -332,7 +332,7 @@ public class Gamemanager : MonoBehaviour
 
     private int nextwho;
     private int[] endjudget = new int[18];
-    private void endjudge()     //aiBehaviour에 딜레이가 있어서 얘가 먼저 계산되고 ai가 일하면 계산이 이상해지는 현상이 발생. 여기 딜레이 줘야 될듯
+    private IEnumerator endjudge()     
     {
         if (totalplayer == 3) if (countint[0] == 0 || countint[1] == 0 || countint[2] == 0) Gameend();
         else if (countint[0] == 0 || countint[1] == 0) Gameend();
@@ -340,6 +340,7 @@ public class Gamemanager : MonoBehaviour
         if (totalplayer == 2) nextwho = (who + 1) % 2;
         if (totalplayer == 3) nextwho = (who + 1) % 3;
 
+        yield return new WaitForSeconds(0.3f);
         bool cancontinue = false;
 
         for (int i = 0; i < 81; i++)
@@ -357,20 +358,17 @@ public class Gamemanager : MonoBehaviour
 
                     if (endjudget[j] != -1 && tile[endjudget[j]].activeSelf && tile[endjudget[j]].GetComponent<tilecontroller>().player[nextwho].activeSelf)
                         cancontinue = true;
-                        Debug.Log(endjudget[j]);
                 }
                 Debug.Log(cancontinue);
             }
 
             if (cancontinue) {
-                Debug.Log(i);
                 break;
                     }
         }
         if (cancontinue == false)
         {
-            Debug.Log("이게끝나네");
-            StartCoroutine(Gameend());
+            StartCoroutine(Gameend2());
         }
     }
     
@@ -442,18 +440,12 @@ public class Gamemanager : MonoBehaviour
     private IEnumerator Gameend2()
     {
         Debug.Log("게임 끝");
-
-        switch (PostBox)
-        {
-            case 1:
-                break;
-            case 2:
-                break;
-        }
+        countint[who] += maxtile - currenttilefill;
         
-        StartCoroutine(noti.Notiup(5, "게임 종료"));
+        if(countint[0] > countint[1]) StartCoroutine(noti.Notiup(10, "플레이어 1이 이겼습니다."));
+        else if (countint[0] < countint[1]) StartCoroutine(noti.Notiup(10, "플레이어 2가 이겼습니다."));
+        else StartCoroutine(noti.Notiup(10, "비겼습니다."));
 
-        
         yield return new WaitForSeconds(0.4f);
         cantouch = false;
     }

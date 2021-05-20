@@ -64,7 +64,7 @@ public class mapIndex : MonoBehaviour
                 mapname = "투기장";
                 gamemanager.mapsetting2(index, P1, P2, mapname);
                 break;
-            case 7:
+            case 7:             //이 맵 지울 것
                 index = new int[] { 5, 6, 7, 8, 14, 15, 16, 17, 18, 24, 25, 26, 27, 33, 34, 35, 36, 37, 40, 43, 44, 45, 46, 52, 53, 54, 55, 56, 62, 63, 64, 65, 71, 72, 73, 74, 75 };
                 P1 = new int[] { 29 };
                 P2 = new int[] { 50 };
@@ -93,7 +93,7 @@ public class mapIndex : MonoBehaviour
                 gamemanager.mapsetting2(index, P1, P2, mapname);
                 break;
             case 11:
-                index = new int[] { 0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 25, 27, 34, 35, 36, 37, 43, 44, 45, 52, 53, 54, 62, 63, 64, 65, 68, 69, 70, 71, 72, 73, 74, 75, 77, 78, 79, 80 };
+                index = new int[] { 0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 26, 27, 34, 35, 36, 37, 43, 44, 45, 52, 53, 54, 62, 63, 64, 65, 68, 69, 70, 71, 72, 73, 74, 75, 77, 78, 79, 80 };
                 P1 = new int[] { 19, 20, 24, 25, 28, 33, 66, 67, 76 };
                 P2 = new int[] { 4, 12, 13, 46, 51, 55, 56, 60, 61 };
                 mapname = "diamond";
