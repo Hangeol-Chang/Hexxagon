@@ -64,11 +64,11 @@ public class mapIndex : MonoBehaviour
                 mapname = "투기장";
                 gamemanager.mapsetting2(index, P1, P2, mapname);
                 break;
-            case 7:             //이 맵 지울 것
-                index = new int[] { 5, 6, 7, 8, 14, 15, 16, 17, 18, 24, 25, 26, 27, 33, 34, 35, 36, 37, 40, 43, 44, 45, 46, 52, 53, 54, 55, 56, 62, 63, 64, 65, 71, 72, 73, 74, 75 };
-                P1 = new int[] { 29 };
-                P2 = new int[] { 50 };
-                mapname = "death match2";
+            case 7:
+                index = new int[] { 3, 4, 5, 11, 14, 17, 18, 19, 20, 24, 25, 26, 29, 32, 35, 39, 40, 41, 47, 50, 53, 54, 55, 56, 60, 61, 62, 65, 68, 71, 75, 76, 77 };
+                P1 = new int[] { 38 };
+                P2 = new int[] { 42 };
+                mapname = "turtle shell";
                 gamemanager.mapsetting2(index, P1, P2, mapname);
                 break;
             case 8:
@@ -106,8 +106,40 @@ public class mapIndex : MonoBehaviour
                 mapname = "surround";
                 gamemanager.mapsetting2(index, P1, P2, mapname);
                 break;
+            case 13:
+                index = new int[] { 0, 3, 6, 10, 13, 16, 18, 21, 24, 28, 31, 34, 36, 39, 42, 46, 49, 52, 54, 57, 60, 64, 67, 70, 72, 75, 78 };
+                P1 = new int[] { 41 };
+                P2 = new int[] { 40 };
+                mapname = "HHexagon";
+                gamemanager.mapsetting2(index, P1, P2, mapname);
+                break;
+            case 14:                //랜덤으로 구멍파는 맵
+                index = new int[] { 0, 1, 7, 8, 9, 16, 17, 18, 26, 35, 53, 54, 62, 63, 70, 71, 72, 73, 79, 80 };
+                P1 = new int[] { 2, 74, 44 };
+                P2 = new int[] { 6, 36, 78 };
 
-                ////////////////////////////////////////////////////////////////////////////////////////////////////여기부터 3인맵//////////////////////////////////////
+                int num = 0;
+                var list = new List<int>(index);
+                var lip = new List<int>(index);
+                lip.AddRange(P1);
+                lip.AddRange(P2);
+
+                while (true)
+                {
+                    num = Random.Range(2, 79);
+                    if (list.Contains(num) == false && lip.Contains(num) == false)
+                    {
+                        list.Add(num);
+                    }
+                    if (list.Count == 30) break;
+                }
+                index = list.ToArray();
+
+                mapname = "Holes";
+                gamemanager.mapsetting2(index, P1, P2, mapname);
+                break;
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////////여기부터 3인맵//////////////////////////////////////
             case 40:
                 index = new int[] { 0, 1, 7, 8, 9, 16, 17, 18, 26, 35, 53, 54, 62, 63, 70, 71, 72, 73, 79, 80 };
                 P1 = new int[] { 2, 78 };
@@ -154,6 +186,14 @@ public class mapIndex : MonoBehaviour
                 P2 = new int[] { 4, 12, 13, 66, 67, 76 };
                 P3 = new int[] { 24, 25, 33, 46, 55, 56 };
                 mapname = "diamond";
+                gamemanager.mapsetting3(index, P1, P2, P3, mapname);
+                break;
+            case 46:
+                index = new int[] { 0, 1, 7, 8, 9, 11, 12, 13, 16, 17, 18, 20, 24, 26, 28, 31, 33, 35, 39, 43, 46, 49, 51, 53, 54, 56, 60, 62, 63, 65, 66, 67, 70, 71, 72, 73, 79, 80 };
+                P1 = new int[] { 42 };
+                P2 = new int[] { 21 };
+                P3 = new int[] { 57 };
+                mapname = "pipes";
                 gamemanager.mapsetting3(index, P1, P2, P3, mapname);
                 break;
 

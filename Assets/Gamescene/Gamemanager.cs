@@ -129,27 +129,27 @@ public class Gamemanager : MonoBehaviour
 
         if (PostBox == 3 || PostBox == 5)
         {
-            aaa = Random.Range(40, 46);
+            aaa = Random.Range(40, 47);
             totalplayer = 3;
         }
         else if (PostBox ==1)
         {
             this.gameObject.GetComponent<AiSet>().aiset(aidif);
 
-            aaa = Random.Range(0, 13);
+            aaa = Random.Range(0, 15);
             P3icon.SetActive(false);                                                       //3p에 관한거 지우기
             count[2].gameObject.SetActive(false);
             totalplayer = 2;
         }
         else
         {
-            aaa = Random.Range(0, 13);
+            aaa = Random.Range(0, 15);
             P3icon.SetActive(false);                                                       //3p에 관한거 지우기
             count[2].gameObject.SetActive(false);
             totalplayer = 2;
         }
 
-        this.mapIndex.map(aaa);
+        this.mapIndex.map(14);
         //this.mapIndex.map(999);
     }
 
@@ -355,7 +355,6 @@ public class Gamemanager : MonoBehaviour
 
                 for (int j = 0; j <18; j++)
                 {
-
                     if (endjudget[j] != -1 && tile[endjudget[j]].activeSelf && tile[endjudget[j]].GetComponent<tilecontroller>().player[nextwho].activeSelf)
                         cancontinue = true;
                 }
