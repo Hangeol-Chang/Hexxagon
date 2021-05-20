@@ -149,7 +149,7 @@ public class Gamemanager : MonoBehaviour
             totalplayer = 2;
         }
 
-        this.mapIndex.map(14);
+        this.mapIndex.map(aaa);
         //this.mapIndex.map(999);
     }
 
